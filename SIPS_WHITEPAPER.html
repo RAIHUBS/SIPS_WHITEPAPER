@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SIPS: Structured Intelligence Protocol Stack</title>
+<style>
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    text-align: left;
+    margin: 60px 80px;
+    line-height: 1.6;
+    color: #000;
+    background: #fff;
+  }
+  h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    text-align: left;
+    margin: 30pt 0 12pt 0;
+    page-break-before: avoid;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: left;
+    margin: 24pt 0 10pt 0;
+    page-break-before: avoid;
+  }
+  h3 {
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: left;
+    margin: 20pt 0 8pt 0;
+    page-break-before: avoid;
+  }
+  h4 {
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: left;
+    margin: 16pt 0 6pt 0;
+  }
+  p { text-align: left; margin: 6pt 0; }
+  .subtitle { font-size: 16pt; text-align: left; margin: 6pt 0; }
+  .meta { font-size: 12pt; text-align: left; margin: 4pt 0; }
+  .section-break { border: none; border-top: 1px solid #999; margin: 30pt 0; }
+  table {
+    border-collapse: collapse;
+    margin: 12pt 0;
+    font-size: 12pt;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #555;
+    padding: 6pt 8pt;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f0f0f0; font-weight: bold; }
+  pre {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11pt;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 10pt 14pt;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    text-align: left;
+    margin: 10pt 0;
+    line-height: 1.4;
+  }
+  code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11pt;
+  }
+  ul, ol { text-align: left; margin: 6pt 0; padding-left: 24pt; }
+  li { margin: 3pt 0; }
+  strong { font-weight: bold; }
+  em { font-style: italic; }
+  .cover-title { font-size: 22pt; font-weight: bold; text-align: left; margin: 0 0 4pt 0; }
+  .cover-subtitle { font-size: 16pt; text-align: left; margin: 4pt 0; }
+  .cover-desc { font-size: 16pt; text-align: left; margin: 6pt 0 18pt 0; }
+  blockquote {
+    border-left: 3px solid #ccc;
+    margin: 12pt 0;
+    padding: 6pt 14pt;
+    color: #333;
+    font-style: italic;
+  }
+  .footer-meta {
+    font-size: 12pt;
+    text-align: left;
+    margin-top: 30pt;
+    padding-top: 12pt;
+    border-top: 2px solid #999;
+  }
+  @media print {
+    body { margin: 0.8in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== COVER ===== -->
+
+<p class="cover-title">SIPS: Structured Intelligence Protocol Stack</p>
+<p class="cover-subtitle">A Minimal, Recursive and Traceable Framework for Reliable Multi-Agent Systems</p>
+<p class="cover-desc">A Five-Layer Protocol Suite Integrating Task Definition, Semantic Representation, Reasoning Traceability, State Management, and Agent Communication</p>
+
+<p class="meta"><strong>Author</strong>: Wang Daqing</p>
+<p class="meta"><strong>Version</strong>: 1.0 &nbsp;&nbsp; <strong>Release Date</strong>: July 2026</p>
+<p class="meta"><strong>License</strong>: CC BY 4.0</p>
+<p class="meta"><strong>Keywords</strong>: AI Agent, Protocol Stack, Structured Reasoning, Traceability, Semantic Framework, RSF, RTP, ASTP, RAGENT, TDP, Multi-Agent Systems</p>
+
+<hr class="section-break">
+
+<!-- ===== ABSTRACT ===== -->
+
+<h1>Abstract</h1>
+
+<p>The Structured Intelligence Protocol Stack (SIPS) is a five-protocol framework designed to address key challenges in modern AI Agent systems: <strong>semantic drift</strong>, <strong>opaque reasoning</strong>, <strong>uncontrolled state transitions</strong>, <strong>unreliable inter-agent communication</strong>, and <strong>ambiguous task intent</strong>.</p>
+
+<p>SIPS consists of five complementary protocols:</p>
+
+<ul>
+  <li><strong>TDP 1.0</strong> — Task Definition Protocol (Optional): A protocol for converging ambiguous user intent into explicit, structured task contracts.</li>
+  <li><strong>RSF 1.0</strong> — Recursive Semantic Framework: A minimal six-slot semantic representation layer that ensures semantic fidelity across all agent interactions.</li>
+  <li><strong>RTP 1.0</strong> — Reasoning Trace Protocol: A structured, auditable format for recording and inspecting reasoning processes.</li>
+  <li><strong>ASTP 1.0</strong> — Agent State Transition Protocol: A minimal verifiable state machine for controlled execution with failure recovery.</li>
+  <li><strong>RAGENT 1.0</strong> — Agent Communication Protocol: A clean, semantically isolated messaging layer for inter-agent exchange.</li>
+</ul>
+
+<p>This paper presents the design philosophy, core specifications, inter-protocol integration, and potential applications in high-stakes domains such as healthcare, finance, law, and software engineering. SIPS emphasizes <strong>minimalism</strong>, <strong>traceability</strong>, and <strong>recursion</strong>, aiming to provide a reliable foundation for trustworthy AI agents.</p>
+
+<hr class="section-break">
+
+<!-- ===== 1. INTRODUCTION ===== -->
+
+<h1>1. Introduction</h1>
+
+<h2>1.1 The Challenge</h2>
+
+<p>Modern AI Agent systems face five fundamental problems that undermine their reliability, especially in high-stakes applications:</p>
+
+<p><strong>Semantic Drift.</strong> When agents communicate via natural language, meaning degrades across long chains of interaction. What starts as "analyze Tesla's competitive position" can become "list Tesla's products" after multiple rounds of transformation and reformulation, with no mechanism to detect or prevent this drift.</p>
+
+<p><strong>Opaque Reasoning.</strong> Chain-of-Thought (CoT) prompting has become the dominant method for eliciting reasoning from large language models. However, CoT traces are unstructured text — difficult to verify systematically, impossible to audit at scale, and resistant to automated inspection.</p>
+
+<p><strong>Uncontrolled State Transitions.</strong> Most agent frameworks lack a formal model of state. An agent might begin executing Task A, switch to Task B in response to an intermediate result, and leave Task A in an undefined state.</p>
+
+<p><strong>Unreliable Inter-Agent Communication.</strong> In multi-agent systems, agents communicate through ad-hoc natural language messages. There is no contract defining what constitutes a valid message, no separation of transport metadata from semantic content, and no standard error handling.</p>
+
+<p><strong>Ambiguous Task Intent.</strong> Before any execution begins, the system must understand what the user actually wants. Vague requests like "analyze Tesla" leave critical dimensions unspecified — scope, output format, quality standards — leading to mismatched expectations and wasted effort.</p>
+
+<h2>1.2 Limitations of Existing Approaches</h2>
+
+<table>
+  <tr><th>Approach</th><th>Primary Limitation</th></tr>
+  <tr><td><strong>Natural language communication</strong></td><td>No structural guarantees; meaning degrades across chains; not machine-auditable</td></tr>
+  <tr><td><strong>Chain-of-Thought (CoT)</strong></td><td>Unstructured free text; hard to verify step by step; no standard format for inspection</td></tr>
+  <tr><td><strong>ReAct / LangGraph / AutoGen</strong></td><td>Framework-specific implementations; tightly coupled to specific runtimes; no universal protocol layer</td></tr>
+  <tr><td><strong>JSON Schema / YAML schemas</strong></td><td>No underlying semantic theory; no native recursion model; no reasoning trace standard</td></tr>
+  <tr><td><strong>AMR (Abstract Meaning Representation)</strong></td><td>Linguistically rich but too complex for agent execution; steep learning curve</td></tr>
+  <tr><td><strong>SRL (Semantic Role Labeling)</strong></td><td>Limited to sentence-level analysis; not designed for agent state or multi-step reasoning</td></tr>
+  <tr><td><strong>Simple prompt engineering</strong></td><td>No structured contract; no convergence process; hidden assumptions remain unexamined</td></tr>
+</table>
+
+<h2>1.3 The SIPS Approach</h2>
+
+<p>SIPS proposes a different approach: instead of building yet another agent framework, it defines a <strong>minimal, recursive, traceable protocol stack</strong> that separates concerns into five clean layers. Rather than prescribing how agents should be built, SIPS defines the <em>contracts</em> between components — how task intent should be converged, how semantic content should be structured, how reasoning should be recorded, how state transitions should be managed, and how agents should communicate.</p>
+
+<p>This protocol-level approach offers several advantages:</p>
+
+<ul>
+  <li><strong>Framework independence</strong>: SIPS can be implemented within any agent architecture — ReAct, LangGraph, AutoGen, or custom-built systems.</li>
+  <li><strong>Layered adoption</strong>: An agent system can adopt RSF alone, or combine RSF with RTP, without committing to the full stack.</li>
+  <li><strong>Incremental migration</strong>: Existing systems can gradually adopt SIPS protocols, starting with the most pressing problem.</li>
+</ul>
+
+<h2>1.4 Paper Structure</h2>
+
+<p>This paper is organized as follows. Section 2 presents the design philosophy underlying SIPS. Section 3 introduces the four core protocol layers in detail. Section 4 introduces TDP 1.0 for task definition. Section 5 describes the overall architecture and inter-protocol integration. Section 6 explores applications. Section 7 compares SIPS with related work. Section 8 discusses implementation status and future directions. Section 9 concludes.</p>
+
+<hr class="section-break">
+
+<!-- ===== 2. DESIGN PHILOSOPHY ===== -->
+
+<h1>2. Design Philosophy</h1>
+
+<p>SIPS is grounded in six design principles that guide every aspect of the protocol stack.</p>
+
+<h2>2.1 Minimalism</h2>
+
+<p>Each protocol defines the <strong>minimum core</strong> needed to achieve its purpose. RSF defines exactly six slots. ASTP defines exactly four components for a Transition Unit. RAGENT defines exactly four message types. Additional functionality is provided through extension mechanisms, not by bloating the core.</p>
+
+<p>This minimalism serves multiple goals: it reduces cognitive load for implementers, increases the likelihood of correct implementations, simplifies validation, and makes the protocols accessible to both human readers and AI systems.</p>
+
+<h2>2.2 Traceability &amp; Verifiability</h2>
+
+<p>Every unit of work — a semantic statement, a reasoning step, a state transition, a message — carries enough information to be traced back to its origin and verified against its expected outcome. These properties are essential for high-stakes domains where regulatory compliance, audit trails, and accountability are mandatory.</p>
+
+<h2>2.3 Recursion Consistency</h2>
+
+<p>Complex structures are decomposed recursively, but every level of recursion uses <strong>the same structural pattern</strong>. A reasoning step at the top level and a sub-step three levels deep both follow the same A–F structure. An execution unit at the top level and a sub-transition both follow the same E–S–T–R pattern.</p>
+
+<p>This consistency eliminates format breaks between levels, simplifies implementation (one parser, one validator), and makes the protocol stack predictable and teachable.</p>
+
+<h2>2.4 Closure over Completeness</h2>
+
+<p>The core of each protocol is designed to be self-consistent (closed) rather than exhaustive (complete). Rather than trying to cover every possible use case, the core defines a minimal, self-contained model that is sufficient for a wide range of applications.</p>
+
+<p>Domain-specific features — medical terminologies, legal ontologies, financial entity types — are added through extension mechanisms without modifying the core. This ensures that the core remains stable while the ecosystem can grow organically.</p>
+
+<h2>2.5 Receiver Intelligence Assumption</h2>
+
+<p>SIPS assumes that the receiving end — whether a human, an AI model, or an agent — is <strong>sufficiently intelligent</strong> to interpret minimal structures. The protocol provides a skeleton, not a script: enough structure for reliability and consistency, but not so much as to constrain flexibility or impose unnecessary verbosity.</p>
+
+<p>This principle distinguishes SIPS from approaches that attempt to encode every possible nuance into the protocol. SIPS trusts the receiver to fill in reasonable gaps, while providing enough structure to detect when the receiver's interpretation deviates from the sender's intent.</p>
+
+<h2>2.6 Layered Decoupling</h2>
+
+<p>The five layers — task definition, semantic representation, reasoning trace, state execution, and communication — are <strong>cleanly separated</strong>. Each layer depends only on the layer directly below it:</p>
+
+<ul>
+  <li>RTP uses RSF as its semantic foundation.</li>
+  <li>ASTP uses RTP for reasoning trace embedding.</li>
+  <li>RAGENT uses RSF for payload structure.</li>
+</ul>
+
+<p>Changes in one layer do not propagate to other layers. An agent can adopt RSF without adopting ASTP. A system can use RAGENT with a different execution model. This modularity is essential for practical adoption.</p>
+
+<hr class="section-break">
+
+<!-- ===== 3. THE SIPS CORE PROTOCOL STACK ===== -->
+
+<h1>3. The SIPS Core Protocol Stack</h1>
+
+<h2>3.1 RSF 1.0 — Semantic Foundation Layer</h2>
+
+<p><strong>Recursive Semantic Framework</strong></p>
+
+<p>RSF is the foundational layer of the SIPS stack. It provides a universal, minimal structure for representing semantic content — anything from a simple fact to a complex multi-step instruction — in a form that is both human-readable and machine-processable.</p>
+
+<h3>3.1.1 Core Formula</h3>
+
+<pre>Semantic Unit = A + B + C + D + E + F</pre>
+
+<p>Every piece of semantic content, regardless of complexity, is represented as a six-slot structure. Slots may be empty when not applicable.</p>
+
+<h3>3.1.2 Six-Slot Definition</h3>
+
+<table>
+  <tr><th>Slot</th><th>Name</th><th>Definition</th><th>Examples</th></tr>
+  <tr><td><strong>A</strong></td><td>Initiator / Agent</td><td>The entity that initiates the action or message</td><td>"doctor", "system", "user_001"</td></tr>
+  <tr><td><strong>B</strong></td><td>Action</td><td>The core action, as a single packed unit including tense, modality, negation, and fixed expressions</td><td>"request_diagnosis", "prescribe", "is_not_authorized"</td></tr>
+  <tr><td><strong>C</strong></td><td>Payload / Target</td><td>The object, event, or recipient of the action</td><td>"patient_123", "ibuprofen_400mg", "report.pdf"</td></tr>
+  <tr><td><strong>D</strong></td><td>Time</td><td>Temporal information — point in time, duration, or temporal constraints</td><td>"2026-07-20T08:30:00Z", "2_hours", "within_24h"</td></tr>
+  <tr><td><strong>E</strong></td><td>Context / Environment</td><td>Spatial scope, domain, or environmental context</td><td>"cardiology", "global_market", "production_env"</td></tr>
+  <tr><td><strong>F</strong></td><td>Parameters / Constraints</td><td>Method, conditions, degree, evidence, and other parameters</td><td><code>{ "severity": "moderate", "confidence": 0.85 }</code></td></tr>
+</table>
+
+<h3>3.1.3 Key Features</h3>
+
+<p><strong>Packing-First Principle.</strong> Complex structures are packed as whole units into a single slot rather than being decomposed into sub-slots. For example, a complex action like "urgently request prior authorization for MRI scan" is packed as a single B-slot unit. This preserves semantic integrity and prevents information loss during decomposition.</p>
+
+<p><strong>Native Recursion.</strong> Nested structures use the same A–F pattern. A Slot C can contain a complete Semantic Unit, which itself contains A–F slots. This makes the framework infinitely recursive without introducing new structural elements.</p>
+
+<p><strong>Semantic Fidelity.</strong> The framework guarantees that facts, modality (necessity, possibility), negation, quantity, and causal strength are preserved without addition or omission.</p>
+
+<h3>3.1.4 Output Modes</h3>
+
+<table>
+  <tr><th>Mode</th><th>Description</th><th>Use Case</th></tr>
+  <tr><td><strong>Lite</strong></td><td>Final content only</td><td>Internal processing, performance-critical paths</td></tr>
+  <tr><td><strong>Standard</strong></td><td>Content with slot markers</td><td>General communication, documentation</td></tr>
+  <tr><td><strong>Audit</strong></td><td>Full A–F structure with adjustment records and entity reference table</td><td>Regulatory compliance, post-hoc analysis</td></tr>
+</table>
+
+<h3>3.1.5 Semantic Example</h3>
+
+<pre>A: "doctor_smith"
+B: "request_diagnosis"
+C:
+  A: "patient_123"
+  B: "present_with"
+  C: "chest_pain"
+  D: "2026-07-20T08:30:00Z"
+  F:
+    duration: "2_hours"
+    severity: "moderate"
+    location: "substernal"
+D: "2026-07-20T08:35:00Z"
+E: "cardiology"
+F:
+  urgency: "high"
+  priority: "stat"</pre>
+
+<hr class="section-break">
+
+<h2>3.2 RTP 1.0 — Reasoning Layer</h2>
+
+<p><strong>Reasoning Trace Protocol</strong></p>
+
+<p>RTP is a protocol for recording structured, auditable reasoning processes. It is a specialized application of RSF in the reasoning domain: every reasoning step is a complete RSF Semantic Unit, with domain-specific interpretations for each slot.</p>
+
+<h3>3.2.1 Core Formula</h3>
+
+<pre>Reasoning Step = A + B + C + D + E + F</pre>
+
+<p>Each step of reasoning is a complete RSF Semantic Unit. Multiple steps form a reasoning chain. Complex reasoning can be recursively decomposed into sub-chains.</p>
+
+<h3>3.2.2 Slot Mapping (RTP Context)</h3>
+
+<table>
+  <tr><th>Slot</th><th>RSF Definition</th><th>In RTP Context</th></tr>
+  <tr><td><strong>A</strong></td><td>Initiator / Agent</td><td>Reasoning Subject — the entity performing this reasoning step</td></tr>
+  <tr><td><strong>B</strong></td><td>Action</td><td>Reasoning Action — the type of reasoning operation</td></tr>
+  <tr><td><strong>C</strong></td><td>Payload / Target</td><td>Object — the knowledge unit being operated on</td></tr>
+  <tr><td><strong>D</strong></td><td>Time</td><td>Sequence — step number or timestamp</td></tr>
+  <tr><td><strong>E</strong></td><td>Context / Environment</td><td>Context Domain — the domain of reasoning</td></tr>
+  <tr><td><strong>F</strong></td><td>Parameters / Constraints</td><td>Parameters &amp; Evidence — rules, confidence, evidence, alternatives</td></tr>
+</table>
+
+<h3>3.2.3 Standard Reasoning Actions</h3>
+
+<p>The protocol defines a standard set of reasoning actions. Implementers may extend this set through the extension mechanism.</p>
+
+<table>
+  <tr><th>Action</th><th>Meaning</th><th>Typical F-slot Content</th></tr>
+  <tr><td><strong>deduce</strong></td><td>Derive a conclusion from premises</td><td>rule, confidence, premises</td></tr>
+  <tr><td><strong>verify</strong></td><td>Validate an assertion against evidence</td><td>result, evidence, method</td></tr>
+  <tr><td><strong>compare</strong></td><td>Compare two or more objects</td><td>relation, dimensions, confidence</td></tr>
+  <tr><td><strong>split</strong></td><td>Decompose a problem into sub-problems</td><td>sub_questions, decomposition_rule</td></tr>
+  <tr><td><strong>merge</strong></td><td>Combine multiple conclusions</td><td>merge_rule, consistency_check, confidence</td></tr>
+  <tr><td><strong>recall</strong></td><td>Retrieve information from memory or sources</td><td>source, relevance_score, retrieval_method</td></tr>
+  <tr><td><strong>transform</strong></td><td>Convert content from one format to another</td><td>target_format, transformation_rule</td></tr>
+  <tr><td><strong>contradict</strong></td><td>Detect contradiction between statements</td><td>contradiction_type, conflicting_elements</td></tr>
+  <tr><td><strong>suspend</strong></td><td>Defer judgment due to insufficient information</td><td>needed_info, why_insufficient, alternatives</td></tr>
+  <tr><td><strong>critique</strong></td><td>Self-critique or peer review of reasoning</td><td>issues_found, suggestions, severity</td></tr>
+</table>
+
+<h3>3.2.4 Confidence Tracking</h3>
+
+<p>Every reasoning step must record a confidence score between 0.0 and 1.0:</p>
+
+<ul>
+  <li><strong>1.0</strong>: Certain (deductive, mathematically proven)</li>
+  <li><strong>0.9–0.99</strong>: Very high confidence (strong evidence, well-established rules)</li>
+  <li><strong>0.7–0.89</strong>: High confidence (good evidence, reasonable inference)</li>
+  <li><strong>0.5–0.69</strong>: Moderate confidence (some evidence, plausible inference)</li>
+  <li><strong>0.3–0.49</strong>: Low confidence (weak evidence, speculative)</li>
+  <li><strong>0.0–0.29</strong>: Very low confidence (guess, insufficient evidence)</li>
+</ul>
+
+<p>Confidence scores enable downstream consumers (other agents, human auditors) to assess the reliability of each reasoning step and the overall reasoning chain.</p>
+
+<h3>3.2.5 Recursive Decomposition</h3>
+
+<p>Complex reasoning steps can be expanded into sub-steps. Each sub-step follows the same A–F structure:</p>
+
+<pre>Step 1: deduce (top level)
+  ├── Step 1.1: recall (retrieve relevant knowledge)
+  ├── Step 1.2: split (decompose into sub-questions)
+  │     ├── Step 1.2.1: deduce (answer sub-question A)
+  │     └── Step 1.2.2: deduce (answer sub-question B)
+  └── Step 1.3: merge (combine sub-answers)</pre>
+
+<p>At every level, the A–F structure is preserved, enabling uniform processing regardless of depth.</p>
+
+<h3>3.2.6 Output Modes</h3>
+
+<table>
+  <tr><th>Mode</th><th>Description</th><th>Use Case</th></tr>
+  <tr><td><strong>Lite</strong></td><td>Final conclusion only</td><td>Performance-critical, simple decisions</td></tr>
+  <tr><td><strong>Standard</strong></td><td>Reasoning chain + final conclusion</td><td>General use, debugging</td></tr>
+  <tr><td><strong>Audit</strong></td><td>Full trace + summary (total_steps, overall_confidence, corrections, alternatives considered)</td><td>Regulatory compliance, post-mortem analysis</td></tr>
+</table>
+
+<h3>3.2.7 Reasoning Trace Example</h3>
+
+<pre>- A: "diagnosis_agent"
+  B: "split"
+  C: "chest_pain_differential_diagnosis"
+  D: "step_1"
+  E: "cardiology"
+  F:
+    sub_questions:
+      - "Is it cardiac?"
+      - "Is it pulmonary?"
+      - "Is it musculoskeletal?"
+    confidence: 1.0
+
+- A: "diagnosis_agent"
+  B: "deduce"
+  C: "cardiac_cause"
+  D: "step_2"
+  E: "cardiology"
+  F:
+    rule: "ECG_normal_and_no_cardiac_biomarkers"
+    evidence:
+      - "ECG: normal sinus rhythm"
+      - "Troponin: negative"
+    confidence: 0.85
+    conclusion: "cardiac_cause_unlikely"
+
+- A: "diagnosis_agent"
+  B: "deduce"
+  C: "musculoskeletal_cause"
+  D: "step_3"
+  E: "cardiology"
+  F:
+    rule: "tenderness_on_palpation_and_no_other_findings"
+    evidence:
+      - "Physical exam: tenderness on palpation"
+      - "No fever, no cough, no shortness of breath"
+    confidence: 0.72
+    conclusion: "musculoskeletal_cause_possible"
+
+- A: "diagnosis_agent"
+  B: "merge"
+  C: "final_diagnosis"
+  D: "step_4"
+  E: "cardiology"
+  F:
+    merge_rule: "highest_confidence_with_evidence_support"
+    result: "musculoskeletal_chest_pain"
+    overall_confidence: 0.72
+    alternatives:
+      - diagnosis: "costochondritis"
+        confidence: 0.15
+      - diagnosis: "GERD"
+        confidence: 0.10</pre>
+
+<hr class="section-break">
+
+<h2>3.3 ASTP 1.0 — Execution Layer</h2>
+
+<p><strong>Agent State Transition Protocol</strong></p>
+
+<p>ASTP provides a minimal, verifiable state machine for agent execution. It ensures that every execution cycle is observable, traceable, and controllable, with built-in support for failure recovery and recursive decomposition.</p>
+
+<h3>3.3.1 Core Model: Transition Unit</h3>
+
+<pre>Transition Unit = (E, S, T, R)</pre>
+
+<p>Every atomic unit of execution is a four-component structure:</p>
+
+<table>
+  <tr><th>Component</th><th>Meaning</th><th>Description</th></tr>
+  <tr><td><strong>E</strong></td><td>Event</td><td>What triggered this transition — an incoming request, a timer, an error, an observation</td></tr>
+  <tr><td><strong>S</strong></td><td>State</td><td>The current state before transition — what the agent knows, has, and is</td></tr>
+  <tr><td><strong>T</strong></td><td>Transition</td><td>The rule governing the state change — precondition, operation, postcondition</td></tr>
+  <tr><td><strong>R</strong></td><td>Result</td><td>The observable outcome — status, new state, delta, artifacts</td></tr>
+</table>
+
+<h3>3.3.2 Event Structure</h3>
+
+<p>Events are the triggers that initiate state transitions. They are categorized by source and type.</p>
+
+<pre>Event:
+  id: string              # Unique event identifier
+  source: string          # User | Agent | System | External | Tool
+  type: string            # Request | Update | Error | Observation | Trigger
+  input: RSF Unit         # Semantic content of the event
+  context: object         # Additional metadata</pre>
+
+<p><strong>Event Sources:</strong></p>
+
+<table>
+  <tr><th>Source</th><th>Description</th></tr>
+  <tr><td><strong>User</strong></td><td>Direct human input</td></tr>
+  <tr><td><strong>Agent</strong></td><td>Another agent or sub-agent</td></tr>
+  <tr><td><strong>System</strong></td><td>The system runtime (timer, scheduler, etc.)</td></tr>
+  <tr><td><strong>External</strong></td><td>External systems (APIs, databases, sensors)</td></tr>
+  <tr><td><strong>Tool</strong></td><td>Tool execution result or callback</td></tr>
+</table>
+
+<p><strong>Event Types:</strong></p>
+
+<table>
+  <tr><th>Type</th><th>Description</th></tr>
+  <tr><td><strong>Request</strong></td><td>Request to perform an operation or return information</td></tr>
+  <tr><td><strong>Update</strong></td><td>Notification of a state change elsewhere</td></tr>
+  <tr><td><strong>Error</strong></td><td>Error condition that needs handling</td></tr>
+  <tr><td><strong>Observation</strong></td><td>Observation from the environment</td></tr>
+  <tr><td><strong>Trigger</strong></td><td>System-triggered event (timer, condition met)</td></tr>
+</table>
+
+<h3>3.3.3 State Structure</h3>
+
+<p>State represents the current snapshot of an agent at a given point in time. It must satisfy at least one of two criteria: <strong>Observable</strong> (can be directly observed) or <strong>Externally Verifiable</strong> (can be verified by an external party).</p>
+
+<pre>State:
+  entity: string           # Which entity this state belongs to
+  properties: object       # Current property values
+  constraints: object      # Active constraints on the state
+  resources: object        # Resources available (tokens, time, etc.)</pre>
+
+<p><strong>State Design Principles:</strong></p>
+
+<ol>
+  <li><strong>Observability</strong>: The state should be expressible in a form that can be observed — logged, displayed, or transmitted.</li>
+  <li><strong>Verifiability</strong>: An external party should be able to verify that the state is internally consistent and consistent with the history of transitions.</li>
+  <li><strong>Minimality</strong>: State should contain only information relevant to current and future transitions.</li>
+</ol>
+
+<h3>3.3.4 Transition Structure</h3>
+
+<p>The Transition component defines the rules and operations for moving from the current state to a new state.</p>
+
+<pre>Transition:
+  precondition: object     # Conditions that must be true before execution
+  operation:
+    action: string         # What action to perform
+    method: string         # How to perform it (algorithm, tool, API call)
+  reasoning_trace: array   # Optional RTP trace documenting reasoning
+  postcondition: object    # Conditions that should be true after execution</pre>
+
+<p><strong>Optional RTP Integration</strong>: The <code>reasoning_trace</code> field can contain one or more RTP reasoning steps, providing full transparency into why this particular transition was chosen.</p>
+
+<h3>3.3.5 Result Structure</h3>
+
+<p>The Result captures the outcome of a transition in a structured, verifiable format.</p>
+
+<pre>Result:
+  status: string           # success | failure | partial | blocked | unknown
+  new_state: State         # The state after transition
+  delta: object            # Difference between previous and new state
+  observation: string/RSF  # Human-readable or structured observation
+  artifact: object         # Generated artifacts (files, code, reports)</pre>
+
+<p><strong>Status Meanings:</strong></p>
+
+<table>
+  <tr><th>Status</th><th>Meaning</th><th>Required Actions</th></tr>
+  <tr><td><strong>success</strong></td><td>Transition completed as expected</td><td>Continue to next transition</td></tr>
+  <tr><td><strong>failure</strong></td><td>Transition failed</td><td>Generate error Event, initiate recovery</td></tr>
+  <tr><td><strong>partial</strong></td><td>Partial success, some goals not met</td><td>Assess remaining goals</td></tr>
+  <tr><td><strong>blocked</strong></td><td>Transition cannot proceed due to external dependency</td><td>Wait or request intervention</td></tr>
+  <tr><td><strong>unknown</strong></td><td>Outcome cannot be determined</td><td>Request verification</td></tr>
+</table>
+
+<h3>3.3.6 Core Rules</h3>
+
+<p><strong>Rule 1 — Complete Cycle</strong>: Every execution cycle must contain all four components: Event, State, Transition, and Result. No component may be omitted.</p>
+
+<p><strong>Rule 2 — Complete Result</strong>: Every Result must include at least <code>status</code> and <code>new_state</code>. The <code>new_state</code> must be a valid State structure.</p>
+
+<p><strong>Rule 3 — Recursive Decomposition</strong>: Complex transitions may be decomposed into sub-transitions. Each sub-transition retains the full E–S–T–R structure.</p>
+
+<p><strong>Rule 4 — Failure Recovery</strong>: On failure, the system must generate <code>status = failure</code> with a descriptive result. This failure may trigger a new Event (of type <code>Error</code>) which can initiate a recovery transition. The recovery transition is itself a complete E–S–T–R unit.</p>
+
+<p><strong>Rule 5 — Optional Reasoning Trace</strong>: Transitions may optionally embed an RTP reasoning trace to document the reasoning process that led to the transition decision.</p>
+
+<h3>3.3.7 Failure Recovery Process</h3>
+
+<p>When a transition fails, the following process ensures controlled recovery:</p>
+
+<ol>
+  <li><strong>Detection</strong>: The Transition completes with <code>status = failure</code>. The Result includes detailed error information.</li>
+  <li><strong>Event Generation</strong>: A new Event is generated with <code>source = System</code> and <code>type = Error</code>, containing the failure context.</li>
+  <li><strong>Recovery Transition</strong>: The system selects an appropriate recovery transition based on the error type and current state.</li>
+  <li><strong>Execution</strong>: The recovery transition executes as a complete E–S–T–R unit.</li>
+  <li><strong>Logging</strong>: The full cycle — original transition, error event, recovery transition — is logged for audit.</li>
+</ol>
+
+<h3>3.3.8 Transition Example</h3>
+
+<pre>Event:
+  id: "evt_001"
+  source: "Agent"
+  type: "Request"
+  input:
+    A: "symptom_analyzer"
+    B: "request_diagnosis"
+    C: "patient_123_chest_pain"
+
+State:
+  entity: "diagnosis_agent"
+  properties:
+    status: "idle"
+    current_patient: null
+  resources:
+    remaining_tokens: 4000
+
+Transition:
+  precondition:
+    status_must_be: "idle"
+    resources_sufficient: true
+  operation:
+    action: "diagnose"
+    method: "differential_diagnosis_with_rtp"
+  reasoning_trace:
+    - A: "diagnosis_agent"
+      B: "split"
+      C: "chest_pain_causes"
+      D: "step_1"
+      F:
+        sub_questions: ["cardiac?", "pulmonary?", "musculoskeletal?"]
+    - A: "diagnosis_agent"
+      B: "deduce"
+      C: "cardiac_rule_out"
+      D: "step_2"
+      F:
+        rule: "ECG_normal_and_negative_biomarkers"
+        confidence: 0.85
+  postcondition:
+    diagnosis_complete: true
+
+Result:
+  status: "success"
+  new_state:
+    entity: "diagnosis_agent"
+    properties:
+      status: "completed"
+      current_patient: "patient_123"
+      diagnosis: "musculoskeletal_chest_pain"
+  delta:
+    status: "idle → completed"
+  observation: "Diagnosis completed: musculoskeletal chest pain (confidence: 0.72)"</pre>
+
+<hr class="section-break">
+
+<h2>3.4 RAGENT 1.0 — Communication Layer</h2>
+
+<p><strong>Agent Communication Protocol</strong></p>
+
+<p>RAGENT defines the protocol for message exchange between agents. Its core design principle is the strict separation of transport metadata from semantic content, enabling routing and transport logic to be completely decoupled from semantic processing.</p>
+
+<h3>3.4.1 Three-Layer Architecture</h3>
+
+<p>RAGENT operates within a three-layer architecture:</p>
+
+<pre>┌──────────────────────────────────┐
+│        Agent Layer               │
+│   (business logic, decisions)    │
+├──────────────────────────────────┤
+│    RAGENT Protocol Layer          │
+│   (message encapsulation,        │
+│    routing, error handling)      │
+├──────────────────────────────────┤
+│      RSF 1.0 Layer               │
+│   (semantic representation)      │
+├──────────────────────────────────┤
+│     Transport Layer              │
+│   (TCP / HTTP / WebSocket, etc.) │
+└──────────────────────────────────┘</pre>
+
+<p>The RAGENT Protocol Layer handles message construction, validation, routing, and error handling — but does not interpret semantic content. Semantic interpretation is the responsibility of the Agent Layer, using RSF structures.</p>
+
+<h3>3.4.2 Message Structure</h3>
+
+<p>Every RAGENT message consists of two clearly separated parts:</p>
+
+<pre>{
+  "envelope": {
+    "message_id": "msg_001",
+    "sender": "agent_alpha",
+    "receiver": "agent_beta",
+    "timestamp": "2026-07-18T22:00:00Z",
+    "version": "1.0",
+    "session_id": "sess_abc"
+  },
+  "type": "REQUEST",
+  "payload": { ... }
+}</pre>
+
+<h3>3.4.3 Envelope Fields</h3>
+
+<p>The Envelope contains only transport metadata. No semantic information may be placed in the Envelope.</p>
+
+<table>
+  <tr><th>Field</th><th>Required</th><th>Description</th></tr>
+  <tr><td><code>message_id</code></td><td>Yes</td><td>Globally unique identifier for this message</td></tr>
+  <tr><td><code>sender</code></td><td>Yes</td><td>Identifier of the sending agent</td></tr>
+  <tr><td><code>receiver</code></td><td>Yes</td><td>Identifier of the intended receiving agent</td></tr>
+  <tr><td><code>timestamp</code></td><td>Yes</td><td>ISO 8601 UTC timestamp of message creation</td></tr>
+  <tr><td><code>version</code></td><td>Yes</td><td>RAGENT protocol version (e.g., "1.0")</td></tr>
+  <tr><td><code>session_id</code></td><td>No</td><td>Session identifier for grouping related messages</td></tr>
+</table>
+
+<p><strong>Envelope-Payload Separation Principle</strong>: This is a constitutional rule of RAGENT. The Envelope carries information needed for message transport and routing only. Any information with semantic meaning — what the message is about, what action is requested, what data is being sent — must be expressed within the RSF Payload. Violating this separation (e.g., putting semantic data in custom Envelope fields) breaks the protocol.</p>
+
+<h3>3.4.4 Message Types</h3>
+
+<p>RAGENT defines exactly four message types. This set is designed to cover the fundamental patterns of agent interaction without unnecessary complexity.</p>
+
+<table>
+  <tr><th>Type</th><th>Meaning</th><th>Response Expected</th><th>Description</th></tr>
+  <tr><td><strong>REQUEST</strong></td><td>Request an operation or return of information</td><td>Yes</td><td>The most common type. Sender expects a RESPONSE.</td></tr>
+  <tr><td><strong>RESPONSE</strong></td><td>Reply to a specific REQUEST</td><td>No</td><td>Must reference the corresponding REQUEST's message_id.</td></tr>
+  <tr><td><strong>EVENT</strong></td><td>Proactive notification of an event occurrence</td><td>No</td><td>One-way notification. No response expected.</td></tr>
+  <tr><td><strong>ERROR</strong></td><td>Protocol or operation failure</td><td>No</td><td>Can be sent in response to a REQUEST or as a standalone notification.</td></tr>
+</table>
+
+<h3>3.4.5 Payload Requirements</h3>
+
+<p>The Payload must satisfy the following requirements:</p>
+
+<ol>
+  <li><strong>RSF Compliance</strong>: The Payload must be a valid RSF 1.0 A–F structure.</li>
+  <li><strong>Semantic Completeness</strong>: The Payload must contain all semantic information needed for the receiver to understand and act upon the message.</li>
+  <li><strong>No Redundancy</strong>: Semantic information must not be duplicated between the Envelope and the Payload.</li>
+</ol>
+
+<p><strong>Semantic Black-Box Principle</strong>: The RAGENT Protocol Layer validates that the Payload is syntactically valid RSF (correct structure, valid slot types) but does <strong>not</strong> interpret its semantic content. This ensures clean separation between communication infrastructure and application semantics.</p>
+
+<h3>3.4.6 Error Handling</h3>
+
+<p>RAGENT defines a standard set of error codes for protocol-level failures. Application-level errors are communicated through the Payload's semantic content.</p>
+
+<table>
+  <tr><th>Error Code</th><th>Meaning</th><th>When Used</th></tr>
+  <tr><td><code>INVALID_MESSAGE</code></td><td>Envelope format is invalid</td><td>Missing required fields, incorrect types</td></tr>
+  <tr><td><code>INVALID_RSF</code></td><td>Payload is not a valid RSF structure</td><td>Structural validation failure</td></tr>
+  <tr><td><code>UNSUPPORTED_VERSION</code></td><td>Protocol version not supported</td><td>Version mismatch</td></tr>
+  <tr><td><code>PERMISSION_DENIED</code></td><td>Sender lacks permission for this operation</td><td>Authorization failure</td></tr>
+  <tr><td><code>EXECUTION_FAILED</code></td><td>Message processing failed</td><td>Internal agent error</td></tr>
+  <tr><td><code>TIMEOUT</code></td><td>Operation timed out</td><td>Receiver did not respond in expected time</td></tr>
+  <tr><td><code>UNKNOWN_TYPE</code></td><td>Message type not recognized</td><td>Type field has invalid value</td></tr>
+</table>
+
+<p>Error messages use <code>type: "ERROR"</code> and carry error details in the Payload:</p>
+
+<pre>{
+  "envelope": { ... },
+  "type": "ERROR",
+  "payload": {
+    "A": "agent_beta",
+    "B": "report_error",
+    "C": "INVALID_RSF",
+    "F": {
+      "original_message_id": "msg_001",
+      "detail": "Slot C is missing required field 'action'"
+    }
+  }
+}</pre>
+
+<h3>3.4.7 Communication Example</h3>
+
+<p>Agent Alpha requests a diagnosis from Agent Beta:</p>
+
+<pre>{
+  "envelope": {
+    "message_id": "msg_001",
+    "sender": "symptom_analyzer",
+    "receiver": "diagnosis_agent",
+    "timestamp": "2026-07-20T08:35:00Z",
+    "version": "1.0",
+    "session_id": "sess_patient_123"
+  },
+  "type": "REQUEST",
+  "payload": {
+    "A": "symptom_analyzer",
+    "B": "request_diagnosis",
+    "C": {
+      "A": "patient_123",
+      "B": "present_with",
+      "C": "chest_pain",
+      "D": "2026-07-20T08:30:00Z",
+      "F": {
+        "duration": "2_hours",
+        "severity": "moderate",
+        "location": "substernal"
+      }
+    },
+    "D": "2026-07-20T08:35:00Z",
+    "E": "cardiology",
+    "F": {
+      "urgency": "high",
+      "requested_output": "diagnosis_with_confidence"
+    }
+  }
+}</pre>
+
+<p>Agent Beta responds:</p>
+
+<pre>{
+  "envelope": {
+    "message_id": "msg_002",
+    "sender": "diagnosis_agent",
+    "receiver": "symptom_analyzer",
+    "timestamp": "2026-07-20T08:35:12Z",
+    "version": "1.0",
+    "session_id": "sess_patient_123"
+  },
+  "type": "RESPONSE",
+  "payload": {
+    "A": "diagnosis_agent",
+    "B": "report_diagnosis",
+    "C": "musculoskeletal_chest_pain",
+    "D": "2026-07-20T08:35:12Z",
+    "E": "cardiology",
+    "F": {
+      "confidence": 0.72,
+      "alternatives": ["costochondritis", "GERD"],
+      "reasoning_steps": 4,
+      "responding_to": "msg_001"
+    }
+  }
+}</pre>
+
+<hr class="section-break">
+
+<!-- ===== 4. TDP 1.0 ===== -->
+
+<h1>4. TDP 1.0 — Task Definition Protocol</h1>
+
+<p><strong>Task Definition Protocol</strong> (Optional)</p>
+
+<p>TDP bridges the gap between fuzzy user intent and structured machine execution. Before an agent can execute a task, it must first understand what the user actually wants. TDP provides a systematic process for converging ambiguous user requests into explicit, structured task contracts.</p>
+
+<h2>4.1 Positioning</h2>
+
+<pre>User Intent (vague)
+    ↓
+TDP ← This protocol: converges fuzzy intent into a task contract
+    ↓
+ASTP (State Execution) / RAGENT (Delegation)
+    ↓
+Agent</pre>
+
+<blockquote><strong>TDP establishes an explicit task contract between the moment a user says "do X for me" and the moment the system begins processing. It is not a prompt — it does not control language behavior, only defines task boundaries.</strong></blockquote>
+
+<h2>4.2 Design Goals</h2>
+
+<ol>
+  <li>Transform vague user intent into a structured task contract</li>
+  <li>Expose hidden assumptions and requirement gaps</li>
+  <li>Define explicit success criteria — "what does 'done' look like?"</li>
+  <li>Specify output format and delivery standards</li>
+  <li>Provide termination conditions</li>
+  <li>Support progressive, round-by-round convergence</li>
+</ol>
+
+<h2>4.3 Core Principles</h2>
+
+<p><strong>Intent over Instruction.</strong> TDP defines <em>what</em> to achieve, not <em>how</em> to achieve it. How belongs to downstream execution protocols (ASTP).</p>
+
+<p><strong>Critical Convergence.</strong> Not all contract dimensions must converge before execution begins. Critical dimensions must converge; non-critical dimensions may use defaults and be refined during execution.</p>
+
+<p><strong>Explicit Defaults.</strong> Every dimension must have a value — either provided by the user or assigned a protocol default. No dimension may remain undefined when execution begins.</p>
+
+<p><strong>Bilateral Commitment.</strong> Once a contract is confirmed, both parties are bound: the system must not exceed the agreed boundaries, and the user may not unilaterally change them without re-convergence.</p>
+
+<h2>4.4 Core Model</h2>
+
+<pre>             Objective
+           /    |    \
+      Domain  Scope  Output
+           \    |    /
+             Quality
+               |
+          Termination</pre>
+
+<p><strong>Convergence Method:</strong> Round-by-round probing. Each round identifies uncertainty in one dimension, presents a question to the user, incorporates the response, and proceeds to the next dimension until all critical dimensions are converged.</p>
+
+<p><strong>Priority Classification:</strong></p>
+
+<ul>
+  <li><strong>Critical</strong> (must converge before execution): Objective, Scope, Output, Quality</li>
+  <li><strong>Non-Critical</strong> (can use defaults, refine during execution): Domain, Termination</li>
+</ul>
+
+<h2>4.5 Core Objects</h2>
+
+<h3>Task Contract</h3>
+<pre>Task_Contract:
+  ID:
+  Source:          # User's original input
+  Status:          # forming | converged | executing | completed
+  Created:
+  Converged:</pre>
+
+<h3>Objective (core — the center)</h3>
+<pre>Objective:
+  Primary:         # Core goal
+  Secondary: []    # Secondary goals
+  Constraints: []  # Known constraints
+  Certainty:       # ASSERTED | INFERRED | UNSPECIFIED</pre>
+
+<h3>Domain (auxiliary — can be inferred)</h3>
+<pre>Domain:
+  Field:           # legal | finance | tech | medical | creative | ...
+  Genre:           # Genre or style
+  Certainty:</pre>
+
+<h3>Scope</h3>
+<pre>Scope:
+  Region:          # Geographic scope
+  Timeframe:       # Time period
+  Granularity:     # overview | detail | deep_dive
+  Certainty:</pre>
+
+<h3>Output</h3>
+<pre>Output:
+  Format:          # report | table | code | summary | visual | ...
+  Length:          # Length constraints
+  Audience:        # expert | manager | public | ...
+  Language:
+  Certainty:</pre>
+
+<h3>Quality</h3>
+<pre>Quality:
+  Data_Source:     # public | confidential | estimated
+  Citation:        # required | optional | none
+  Certainty_Marking: # required | optional | none
+  Review_Level:    # none | self | peer
+  Certainty:</pre>
+
+<h3>Termination</h3>
+<pre>Termination:
+  Type:            # user_confirmation | max_rounds | max_length | goal_achieved
+  Value:
+  Fallback:        # What to do if termination condition is not met</pre>
+
+<h2>4.6 Convergence Process Example</h2>
+
+<pre>Input: "Analyze Tesla for me"
+
+Round 1 → Objective:
+  Question: "What is your core goal? Investment value? Competitive position?"
+  Answer: "See how it ranks in the industry"
+  Contract Update: Objective.Primary = "competitive_position_analysis"
+
+Round 2 → Scope:
+  Question: "Global market or just China?"
+  Answer: "Global"
+  Contract Update: Scope.Region = global
+
+Round 3 → Output:
+  Question: "Prefer a comparison table or textual analysis?"
+  Answer: "Table-focused"
+  Contract Update: Output.Format = table
+
+Round 4 → Quality:
+  Question: "Do you need data sources cited?"
+  Answer: "Yes"
+  Contract Update: Quality.Citation = required
+
+→ Critical dimensions converged (Objective + Scope + Output + Quality)
+→ Domain (business) inferred, Termination (user_confirmation) defaulted
+→ Proceed to execution</pre>
+
+<h2>4.7 Standard Format</h2>
+
+<pre>TDP_1.0:
+
+  Contract:
+    ID: "tdp-001"
+    Source: "Analyze Tesla"
+    Status: converged
+
+  Objective:
+    Primary: "competitive_position_analysis"
+    Certainty: ASSERTED
+
+  Domain:
+    Field: business
+    Genre: industry_analysis
+    Certainty: INFERRED
+
+  Scope:
+    Region: global
+    Timeframe: "2025_current"
+    Granularity: detail
+    Certainty: ASSERTED
+
+  Output:
+    Format: table+text
+    Audience: manager
+    Certainty: ASSERTED
+
+  Quality:
+    Data_Source: public
+    Citation: required
+    Certainty_Marking: optional
+    Certainty: ASSERTED
+
+  Termination:
+    Type: user_confirmation
+    Fallback: max_rounds=5
+
+  Convergence_Log:
+    - Round: 1
+      Dimension: Objective
+      Question: "What is your core goal?"
+      Answer: "See how it ranks in the industry"
+    - Round: 2
+      Dimension: Scope
+      Question: "Global or China?"
+      Answer: "Global"</pre>
+
+<h2>4.8 Relationship with SIPS Protocols</h2>
+
+<pre>              TDP
+           /        \
+      ASTP         RAGENT
+   (Execution)   (Delegation)
+           \        /
+            Agent</pre>
+
+<ul>
+  <li>Tasks requiring multi-step execution (code writing, email sending, form filling) → TDP → ASTP</li>
+  <li>Tasks requiring delegation to other agents → TDP → RAGENT</li>
+  <li>Tasks requiring both → TDP → ASTP + RAGENT</li>
+</ul>
+
+<h2>4.9 Extension Dimensions (Plugin Mechanism)</h2>
+
+<p>Additional dimensions may be added through plugins without modifying the core five-dimension structure:</p>
+
+<ul>
+  <li><strong>Risk</strong> — Risk tolerance preferences</li>
+  <li><strong>Preference</strong> — Expression style preferences</li>
+  <li><strong>Constraint</strong> — Additional constraint conditions</li>
+  <li><strong>Audience Detail</strong> — Detailed audience profiling</li>
+</ul>
+
+<h2>4.10 Summary</h2>
+
+<blockquote><strong>TDP converges fuzzy intent into an explicit task contract. With Objective as the center, Scope, Output, and Quality as boundaries, Domain as auxiliary positioning, and Termination as the endpoint. Once converged, execution is delegated to ASTP or RAGENT.</strong></blockquote>
+
+<hr class="section-break">
+
+<!-- ===== 5. OVERALL ARCHITECTURE & INTEGRATION ===== -->
+
+<h1>5. Overall Architecture &amp; Integration</h1>
+
+<h2>5.1 Protocol Stack Architecture</h2>
+
+<p>The five protocols form a coherent stack where each layer builds upon the one below:</p>
+
+<pre>┌───────────────────────────────────────────────────────────┐
+│            TDP 1.0 — Task Definition (Optional)           │
+│   Intent → Contract convergence                           │
+│   Critical: Objective, Scope, Output, Quality             │
+├───────────────────────────────────────────────────────────┤
+│                    AGENT LAYER                            │
+│   Business logic, orchestration, tool integration         │
+│   Consumes and produces RSF structures                   │
+├───────────────────────────────────────────────────────────┤
+│               RAGENT 1.0 — Communication                  │
+│   Envelope + Payload separation                          │
+│   4 message types: REQUEST / RESPONSE / EVENT / ERROR     │
+│   Payload must be valid RSF structure                    │
+├───────────────────────────────────────────────────────────┤
+│               ASTP 1.0 — Execution                        │
+│   Transition Unit: E → S → T → R                         │
+│   Recursive decomposition &amp; failure recovery              │
+│   Optional RTP reasoning trace embedding                 │
+├───────────────────────────────────────────────────────────┤
+│               RTP 1.0 — Reasoning                         │
+│   Reasoning Step = A + B + C + D + E + F                 │
+│   Standard actions + confidence tracking                 │
+│   Three output modes: Lite / Standard / Audit            │
+├───────────────────────────────────────────────────────────┤
+│               RSF 1.0 — Semantic Foundation               │
+│   Semantic Unit = A + B + C + D + E + F                  │
+│   Packing-first principle &amp; native recursion              │
+│   Three output modes: Lite / Standard / Audit            │
+└───────────────────────────────────────────────────────────┘</pre>
+
+<h2>5.2 Inter-Protocol Relationships</h2>
+
+<table>
+  <tr><th>Relationship</th><th>Description</th></tr>
+  <tr><td><strong>TDP ⟶ ASTP</strong></td><td>TDP produces a task contract that ASTP executes as a series of state transitions.</td></tr>
+  <tr><td><strong>TDP ⟶ RAGENT</strong></td><td>TDP contracts can be delegated to other agents via RAGENT messages.</td></tr>
+  <tr><td><strong>RTP ⟶ RSF</strong></td><td>RTP is a specialized application of RSF. Every reasoning step is an RSF Semantic Unit.</td></tr>
+  <tr><td><strong>RTP ⟶ ASTP</strong></td><td>RTP traces can be embedded in an ASTP Transition's <code>reasoning_trace</code> field.</td></tr>
+  <tr><td><strong>RAGENT ⟶ RSF</strong></td><td>RAGENT Payloads must be valid RSF structures.</td></tr>
+  <tr><td><strong>ASTP ⟶ RAGENT</strong></td><td>ASTP execution results can be transmitted via RAGENT messages.</td></tr>
+</table>
+
+<h2>5.3 Data Flow Patterns</h2>
+
+<p><strong>Pattern 1 — TDP-driven Task Execution:</strong></p>
+
+<pre>User: "Analyze Tesla"
+  ↓
+TDP: converge intent into contract
+  ↓
+ASTP: execute contract as state transitions
+  ├── RAGENT: delegate sub-tasks to specialist agents
+  │     └── Agents respond with RSF-structured results
+  └── ASTP: merge results → final output
+  ↓
+User receives structured result</pre>
+
+<p><strong>Pattern 2 — Reasoning-Intensive Execution:</strong></p>
+
+<pre>Event → ASTP.Transition
+          ├── precondition check
+          ├── RTP reasoning trace (decide what to do)
+          ├── operation execution
+          └── Result generation
+                ├── new_state
+                └── optional RAGENT message</pre>
+
+<p><strong>Pattern 3 — Multi-Agent Collaboration with Full Traceability:</strong></p>
+
+<pre>User Request
+  ↓
+TDP (converge intent into contract)
+  ↓
+ASTP (orchestrator agent)
+  ├── RAGENT REQUEST → Agent B (specialist)
+  │     └── Agent B executes ASTP transitions with RTP traces
+  │           └── RAGENT RESPONSE → orchestrator
+  ├── RAGENT REQUEST → Agent C (checker)
+  │     └── Agent C verifies with RTP traces
+  │           └── RAGENT RESPONSE → orchestrator
+  └── ASTP Transition (merge results)
+        └── Final Result to user</pre>
+
+<h2>5.4 Worked Example: Medical Diagnosis Multi-Agent Collaboration</h2>
+
+<p>This comprehensive example demonstrates all protocols working together in a realistic clinical decision support scenario.</p>
+
+<p><strong>Scenario</strong>: A patient presents with chest pain. Three agents collaborate: <strong>Symptom Analyzer</strong> (SA), <strong>Diagnosis Agent</strong> (DA), and <strong>Prescription Checker</strong> (PC).</p>
+
+<h3>Phase 0: TDP Converges Intent</h3>
+
+<pre>User: "Help with this chest pain patient"
+
+TDP Round 1 → Objective:
+  Question: "What do you need? Diagnosis support? Treatment plan?"
+  Answer: "Differential diagnosis and treatment recommendation"
+  Contract: Objective.Primary = "differential_diagnosis_and_treatment"
+
+TDP Round 2 → Scope:
+  Question: "Any specific suspected causes?"
+  Answer: "Rule out cardiac first, then consider other causes"
+  Contract: Scope.Granularity = "cardiac_rule_out_first"
+
+TDP Round 3 → Output:
+  Question: "How detailed should the reasoning be?"
+  Answer: "Full reasoning trace for medical records"
+  Contract: Output.Format = "diagnosis_report_with_reasoning"
+
+→ Contract converged. Proceeding to ASTP execution.</pre>
+
+<h3>Phase 1: Symptom Analyzer sends REQUEST to Diagnosis Agent</h3>
+
+<pre>{
+  "envelope": {
+    "message_id": "msg_001",
+    "sender": "symptom_analyzer",
+    "receiver": "diagnosis_agent",
+    "timestamp": "2026-07-20T08:35:00Z",
+    "version": "1.0",
+    "session_id": "sess_001"
+  },
+  "type": "REQUEST",
+  "payload": {
+    "A": "symptom_analyzer",
+    "B": "request_diagnosis",
+    "C": {
+      "A": "patient_123",
+      "B": "present_with",
+      "C": "chest_pain",
+      "D": "2026-07-20T08:30:00Z",
+      "F": {
+        "duration": "2_hours", "severity": "moderate",
+        "location": "substernal",
+        "associated_symptoms": ["no_shortness_of_breath", "no_fever"]
+      }
+    },
+    "D": "2026-07-20T08:35:00Z",
+    "E": "cardiology",
+    "F": { "urgency": "high", "requested_output": "diagnosis_with_reasoning" }
+  }
+}</pre>
+
+<h3>Phase 2: Diagnosis Agent ASTP Transition with RTP Trace</h3>
+
+<pre>Transition:
+  operation:
+    action: "perform_differential_diagnosis"
+    method: "rtp_assisted_reasoning"
+  reasoning_trace:
+    - A: "diagnosis_agent"
+      B: "split"
+      C: "chest_pain_differential"
+      D: "step_1"
+      E: "cardiology"
+      F:
+        sub_questions: ["cardiac?", "pulmonary?", "musculoskeletal?", "gi?"]
+        confidence: 1.0
+
+    - A: "diagnosis_agent"
+      B: "deduce"
+      C: "cardiac_cause"
+      D: "step_2"
+      E: "cardiology"
+      F:
+        evidence: ["ECG: normal sinus rhythm", "Troponin: negative"]
+        confidence: 0.88
+        conclusion: "cardiac_cause_unlikely"
+
+    - A: "diagnosis_agent"
+      B: "deduce"
+      C: "musculoskeletal_cause"
+      D: "step_3"
+      E: "cardiology"
+      F:
+        evidence: ["Tenderness on palpation", "Pain reproducible with movement"]
+        confidence: 0.72
+        conclusion: "musculoskeletal_cause_possible"
+
+    - A: "diagnosis_agent"
+      B: "merge"
+      C: "final_diagnosis"
+      D: "step_4"
+      E: "cardiology"
+      F:
+        result: "musculoskeletal_chest_pain"
+        overall_confidence: 0.72
+
+Result:
+  status: "success"
+  new_state:
+    entity: "diagnosis_agent"
+    properties:
+      status: "completed"
+      diagnosis: "musculoskeletal_chest_pain"
+      confidence: 0.72</pre>
+
+<h3>Phase 3: Prescription Checker Verifies</h3>
+
+<pre>{
+  "envelope": {
+    "message_id": "msg_004",
+    "sender": "prescription_checker",
+    "receiver": "symptom_analyzer",
+    "timestamp": "2026-07-20T08:35:25Z",
+    "version": "1.0",
+    "session_id": "sess_001"
+  },
+  "type": "RESPONSE",
+  "payload": {
+    "A": "prescription_checker",
+    "B": "report_verification",
+    "C": "prescription_verified",
+    "F": {
+      "checks_performed": [
+        "allergy_check: passed",
+        "interaction_check: passed",
+        "dosage_check: passed",
+        "indication_check: passed"
+      ],
+      "overall_status": "approved"
+    }
+  }
+}</pre>
+
+<h3>Full Traceability Chain</h3>
+
+<table>
+  <tr><th>Layer</th><th>Artifact</th><th>Location</th></tr>
+  <tr><td><strong>TDP</strong></td><td>Task contract with convergence log</td><td>Contract store</td></tr>
+  <tr><td><strong>RSF</strong></td><td>All semantic content in A–F structure</td><td>Every message payload</td></tr>
+  <tr><td><strong>RTP</strong></td><td>4-step reasoning trace</td><td>ASTP Transition of Diagnosis Agent</td></tr>
+  <tr><td><strong>ASTP</strong></td><td>Multiple Transition Units</td><td>Each agent's execution log</td></tr>
+  <tr><td><strong>RAGENT</strong></td><td>4 messages (msg_001 through msg_004)</td><td>Communication log</td></tr>
+</table>
+
+<p>An auditor can reconstruct the entire decision process: what was requested, how the diagnosis was reasoned, what verification was performed, and what was prescribed — all in structured, machine-readable format.</p>
+
+<hr class="section-break">
+
+<!-- ===== 6. APPLICATIONS ===== -->
+
+<h1>6. Applications</h1>
+
+<h2>6.1 Healthcare</h2>
+
+<table>
+  <tr><th>Use Case</th><th>SIPS Role</th><th>Key Benefit</th></tr>
+  <tr><td><strong>Structured medical records</strong></td><td>RSF represents clinical facts with clear subject-object semantics</td><td>Eliminates semantic drift in longitudinal patient records</td></tr>
+  <tr><td><strong>Diagnostic reasoning audit</strong></td><td>RTP records each reasoning step with confidence and evidence</td><td>Satisfies regulatory requirements for diagnostic justification</td></tr>
+  <tr><td><strong>Prescription verification</strong></td><td>ASTP manages verification state machine across multiple checkers</td><td>Ensures no prescription is dispensed without full verification</td></tr>
+  <tr><td><strong>Clinical intake</strong></td><td>TDP converges clinician's request into structured task</td><td>Clear task boundaries from the start</td></tr>
+</table>
+
+<h2>6.2 Legal</h2>
+
+<table>
+  <tr><th>Use Case</th><th>SIPS Role</th><th>Key Benefit</th></tr>
+  <tr><td><strong>Contract clause extraction</strong></td><td>RSF preserves legal semantics — obligations, prohibitions, conditions</td><td>Machine-readable contracts with preserved legal meaning</td></tr>
+  <tr><td><strong>Compliance reasoning</strong></td><td>RTP traces compliance decisions to specific regulations</td><td>Audit-ready compliance documentation</td></tr>
+  <tr><td><strong>Document review pipeline</strong></td><td>ASTP manages review states: draft → review → approve → final</td><td>Predictable workflow with failure recovery</td></tr>
+  <tr><td><strong>Legal research scoping</strong></td><td>TDP converges research request into precise scope</td><td>Eliminates ambiguous research briefs</td></tr>
+</table>
+
+<h2>6.3 Finance</h2>
+
+<table>
+  <tr><th>Use Case</th><th>SIPS Role</th><th>Key Benefit</th></tr>
+  <tr><td><strong>Risk assessment</strong></td><td>RSF captures risk factors with semantic precision</td><td>Consistent risk evaluation across portfolios</td></tr>
+  <tr><td><strong>Trading state management</strong></td><td>ASTP ensures verifiable trade lifecycle: proposed → validated → executed → settled</td><td>Full trade audit trail</td></tr>
+  <tr><td><strong>Regulatory reporting</strong></td><td>RTP traces compliance reasoning behind disclosures</td><td>Defensible regulatory filings</td></tr>
+  <tr><td><strong>Investment analysis briefing</strong></td><td>TDP converges analyst request into structured output contract</td><td>Clear deliverable expectations</td></tr>
+</table>
+
+<h2>6.4 Software Engineering</h2>
+
+<table>
+  <tr><th>Use Case</th><th>SIPS Role</th><th>Key Benefit</th></tr>
+  <tr><td><strong>Requirement structuring</strong></td><td>RSF captures requirements with clear agent-action-object semantics</td><td>Unambiguous requirements, reduced misinterpretation</td></tr>
+  <tr><td><strong>Code review reasoning</strong></td><td>RTP records review decisions with traceable rationale</td><td>Structured code review</td></tr>
+  <tr><td><strong>CI/CD pipeline states</strong></td><td>ASTP manages build → test → deploy transitions with failure recovery</td><td>Predictable deployment with rollback</td></tr>
+  <tr><td><strong>Feature request intake</strong></td><td>TDP converges feature request into specification contract</td><td>Clear scope and acceptance criteria</td></tr>
+</table>
+
+<h2>6.5 Multi-Agent Collaboration Systems</h2>
+
+<ul>
+  <li><strong>Role-based agent definition</strong>: Each agent defines its states (ASTP), reasoning (RTP), and communication (RAGENT) using RSF.</li>
+  <li><strong>Task decomposition</strong>: TDP converges user intent into a structured contract, then ASTP manages sub-task execution.</li>
+  <li><strong>State synchronization</strong>: Agents share state through RAGENT messages with RSF payloads.</li>
+  <li><strong>Communication reliability</strong>: Standardized message types and error codes ensure predictable interaction.</li>
+</ul>
+
+<h2>6.6 RAG System Enhancement</h2>
+
+<ul>
+  <li><strong>Query structuring with RSF</strong>: Structured queries improve retrieval precision.</li>
+  <li><strong>Source traceability with RTP</strong>: Complete chain from query to answer with verifiable source attribution.</li>
+  <li><strong>Multi-hop reasoning</strong>: RTP recursive structure supports multi-hop retrieval chains.</li>
+  <li><strong>Task scoping with TDP</strong>: TDP converges the information need before retrieval begins.</li>
+</ul>
+
+<hr class="section-break">
+
+<!-- ===== 7. COMPARISON WITH RELATED WORK ===== -->
+
+<h1>7. Comparison with Related Work</h1>
+
+<h2>7.1 Comparison with Agent Frameworks</h2>
+
+<table>
+  <tr><th>Feature</th><th>ReAct</th><th>LangGraph</th><th>AutoGen</th><th>CrewAI</th><th><strong>SIPS</strong></th></tr>
+  <tr><td><strong>Task definition</strong></td><td>None</td><td>None</td><td>None</td><td>None</td><td><strong>TDP (structured contract)</strong></td></tr>
+  <tr><td><strong>Semantic representation</strong></td><td>Natural language</td><td>Natural language</td><td>Natural language</td><td>Natural language</td><td><strong>RSF (structured A–F)</strong></td></tr>
+  <tr><td><strong>Reasoning trace</strong></td><td>Free-form CoT</td><td>Free-form CoT</td><td>Free-form CoT</td><td>Free-form CoT</td><td><strong>RTP (structured, auditable)</strong></td></tr>
+  <tr><td><strong>State management</strong></td><td>Implicit</td><td>Explicit (graph)</td><td>Implicit</td><td>Implicit</td><td><strong>ASTP (formal E–S–T–R)</strong></td></tr>
+  <tr><td><strong>Communication</strong></td><td>None</td><td>Framework-specific</td><td>Framework-specific</td><td>Framework-specific</td><td><strong>RAGENT (protocol-level)</strong></td></tr>
+  <tr><td><strong>Framework independence</strong></td><td>No</td><td>No</td><td>No</td><td>No</td><td><strong>Yes (protocol, not framework)</strong></td></tr>
+  <tr><td><strong>Recursion model</strong></td><td>None</td><td>Graph-based</td><td>None</td><td>None</td><td><strong>Native (same structure at all levels)</strong></td></tr>
+  <tr><td><strong>Failure recovery</strong></td><td>None</td><td>Graph fallback</td><td>Limited</td><td>None</td><td><strong>Built-in (error events → recovery)</strong></td></tr>
+</table>
+
+<p><strong>Key Insight</strong>: Existing agent frameworks are <strong>implementations</strong> — they provide a specific runtime for building agents. SIPS is a <strong>protocol stack</strong> — it defines contracts that any framework can implement.</p>
+
+<h2>7.2 Comparison with Semantic Approaches</h2>
+
+<table>
+  <tr><th>Feature</th><th>AMR</th><th>SRL</th><th>JSON Schema</th><th><strong>RSF</strong></th></tr>
+  <tr><td><strong>Slot count</strong></td><td>Variable (graph)</td><td>Variable</td><td>Variable</td><td><strong>Fixed 6-slot (A–F)</strong></td></tr>
+  <tr><td><strong>Native recursion</strong></td><td>Yes (graph recursion)</td><td>Limited</td><td>Manual</td><td><strong>Yes (same A–F recursively)</strong></td></tr>
+  <tr><td><strong>Human readability</strong></td><td>Moderate</td><td>Low</td><td>Moderate</td><td><strong>High (YAML-like)</strong></td></tr>
+  <tr><td><strong>Agent-native design</strong></td><td>No (linguistic)</td><td>No (linguistic)</td><td>No (data focus)</td><td><strong>Yes (designed for agents)</strong></td></tr>
+  <tr><td><strong>Packing-first</strong></td><td>No (compositional)</td><td>No (decompositional)</td><td>N/A</td><td><strong>Yes</strong></td></tr>
+  <tr><td><strong>Output modes</strong></td><td>Single format</td><td>Single format</td><td>Single format</td><td><strong>Three modes (Lite/Standard/Audit)</strong></td></tr>
+</table>
+
+<p><strong>Key Insight</strong>: AMR and SRL are linguistic frameworks. RSF is an agent-native semantic framework. The fixed 6-slot structure and packing-first principle make RSF more practical for agent execution.</p>
+
+<h2>7.3 Comparison with Protocol Approaches</h2>
+
+<table>
+  <tr><th>Feature</th><th>Anthropic MCP</th><th>OpenAI Function Calling</th><th><strong>SIPS</strong></th></tr>
+  <tr><td><strong>Scope</strong></td><td>Tool/Resource access</td><td>Function invocation</td><td><strong>Full protocol stack (5 layers)</strong></td></tr>
+  <tr><td><strong>Semantic model</strong></td><td>Tool-specific schemas</td><td>Function-specific schemas</td><td><strong>Unified RSF across all interactions</strong></td></tr>
+  <tr><td><strong>Reasoning trace</strong></td><td>Not specified</td><td>Not specified</td><td><strong>RTP (standardized, auditable)</strong></td></tr>
+  <tr><td><strong>State management</strong></td><td>Not specified</td><td>Not specified</td><td><strong>ASTP (formal E–S–T–R)</strong></td></tr>
+  <tr><td><strong>Task definition</strong></td><td>Not specified</td><td>Not specified</td><td><strong>TDP (structured contract)</strong></td></tr>
+  <tr><td><strong>Communication</strong></td><td>Tool-call response</td><td>Function-call response</td><td><strong>RAGENT (4 message types + errors)</strong></td></tr>
+  <tr><td><strong>Recursion</strong></td><td>Not specified</td><td>Not specified</td><td><strong>Native across all layers</strong></td></tr>
+</table>
+
+<h2>7.4 Advantages of SIPS</h2>
+
+<ol>
+  <li><strong>Minimalism</strong>: Each protocol defines a minimal, self-contained core. Approximately 25 core concepts cover the essential needs.</li>
+  <li><strong>Consistency</strong>: The same structural patterns appear across all layers.</li>
+  <li><strong>Traceability</strong>: Every unit is traceable to its origin with structured metadata.</li>
+  <li><strong>Framework independence</strong>: SIPS defines protocols, not a framework.</li>
+  <li><strong>Layered adoption</strong>: Incremental migration is supported.</li>
+  <li><strong>Task clarity</strong>: TDP ensures execution begins with a clear, agreed-upon contract.</li>
+</ol>
+
+<h2>7.5 Limitations</h2>
+
+<ol>
+  <li><strong>Maturity</strong>: SIPS is currently a specification with reference implementations under development.</li>
+  <li><strong>Overhead</strong>: Structural overhead compared to free-form communication; Lite modes reduce this.</li>
+  <li><strong>Adoption requirement</strong>: Full benefits require agreement on protocol semantics.</li>
+  <li><strong>Learning curve</strong>: Understanding five protocols and their interactions.</li>
+</ol>
+
+<hr class="section-break">
+
+<!-- ===== 8. IMPLEMENTATION & FUTURE WORK ===== -->
+
+<h1>8. Implementation &amp; Future Work</h1>
+
+<h2>8.1 Current Implementation Status</h2>
+
+<table>
+  <tr><th>Protocol</th><th>Status</th><th>Notes</th></tr>
+  <tr><td>RSF 1.0</td><td>Specification frozen</td><td>Core six-slot structure, three output modes</td></tr>
+  <tr><td>RTP 1.0</td><td>Specification frozen</td><td>Standard action table, confidence model</td></tr>
+  <tr><td>ASTP 1.0</td><td>Specification frozen</td><td>E–S–T–R model, failure recovery</td></tr>
+  <tr><td>RAGENT 1.0</td><td>Specification frozen</td><td>Envelope/Payload separation, error codes</td></tr>
+  <tr><td>TDP 1.0</td><td>Optional specification</td><td>Task contract convergence protocol</td></tr>
+</table>
+
+<h2>8.2 Consistency Verification Mechanisms</h2>
+
+<ul>
+  <li><strong>Structural Validators</strong>: Validate conformance per protocol.</li>
+  <li><strong>Cross-Protocol Checks</strong>: RTP in ASTP, RSF in RAGENT, TDP contracts feeding ASTP transitions.</li>
+  <li><strong>Recursion Depth Controls</strong>: Default maximum 10 levels, configurable.</li>
+</ul>
+
+<h2>8.3 Future Roadmap</h2>
+
+<p><strong>Near-term:</strong> Golden Test Suite, Reference SDKs (Python, TypeScript), Documentation.</p>
+
+<p><strong>Medium-term:</strong> Domain Plugins (Healthcare ICD-10, Legal, Finance ISO 20022), Benchmarking Suite, Protocol Visualizer.</p>
+
+<p><strong>Long-term:</strong> Protocol Evolution Process, Formal Semantics, SDK Ecosystem (Rust, Go, Java), Community Governance.</p>
+
+<h2>8.4 Call for Contributions</h2>
+
+<p>We invite the community to adopt, implement, extend, evaluate, and contribute to SIPS.</p>
+
+<hr class="section-break">
+
+<!-- ===== 9. CONCLUSION ===== -->
+
+<h1>9. Conclusion</h1>
+
+<p>The Structured Intelligence Protocol Stack (SIPS) provides a minimal yet powerful protocol suite for building reliable AI Agent systems. By separating concerns into five layers — task definition (TDP 1.0), semantic representation (RSF 1.0), reasoning traceability (RTP 1.0), state execution (ASTP 1.0), and agent communication (RAGENT 1.0) — SIPS addresses the fundamental challenges that undermine trust in current agent systems: semantic drift, opaque reasoning, uncontrolled state transitions, unreliable inter-agent communication, and ambiguous task intent.</p>
+
+<p>The design philosophy of minimalism, traceability, recursion, closure, and layered decoupling ensures that SIPS is lightweight enough for practical implementation while rigorous enough for high-stakes domains such as healthcare, finance, law, and software engineering. The built-in recursion model and three-tier output modes (Lite, Standard, Audit) allow systems to balance performance and auditability based on their specific requirements.</p>
+
+<p>SIPS is not a framework but a protocol stack — it defines how agents should define tasks, represent meaning, reason, execute, and communicate, without prescribing how they should be built. This makes it compatible with existing agent architectures while providing a layer of reliability that is currently missing from the ecosystem. Systems can adopt SIPS incrementally, starting with RSF for semantic fidelity and adding layers as needs grow.</p>
+
+<p>As AI agents move from experimental prototypes to production systems in regulated domains, the need for semantic fidelity, reasoning transparency, state controllability, task clarity, and communication reliability becomes critical. SIPS provides a foundation for meeting these needs — a protocol stack designed from the ground up for trustworthy, auditable, and reliable AI agents.</p>
+
+<p>We invite the research and engineering community to adopt, implement, and extend SIPS, contributing to the shared goal of building AI agents that can be trusted to operate reliably in critical domains.</p>
+
+<hr class="section-break">
+
+<!-- ===== APPENDIX A ===== -->
+
+<h2>Appendix A: Terminology</h2>
+
+<table>
+  <tr><th>Term</th><th>Definition</th><th>Protocol</th></tr>
+  <tr><td><strong>Semantic Unit</strong></td><td>A complete RSF A–F structure representing a single semantic statement</td><td>RSF</td></tr>
+  <tr><td><strong>Reasoning Step</strong></td><td>An RTP A–F structure representing one reasoning operation with confidence</td><td>RTP</td></tr>
+  <tr><td><strong>Reasoning Chain</strong></td><td>An ordered sequence of Reasoning Steps</td><td>RTP</td></tr>
+  <tr><td><strong>Transition Unit</strong></td><td>An ASTP E–S–T–R structure representing one complete execution cycle</td><td>ASTP</td></tr>
+  <tr><td><strong>State</strong></td><td>An observable snapshot of an agent at a point in time</td><td>ASTP</td></tr>
+  <tr><td><strong>Event</strong></td><td>A trigger that initiates a state transition</td><td>ASTP</td></tr>
+  <tr><td><strong>Task Contract</strong></td><td>A TDP structure capturing converged task intent with all dimensions</td><td>TDP</td></tr>
+  <tr><td><strong>Convergence</strong></td><td>The process of resolving uncertainty in task dimensions through user interaction</td><td>TDP</td></tr>
+  <tr><td><strong>Envelope</strong></td><td>The transport metadata portion of a RAGENT message</td><td>RAGENT</td></tr>
+  <tr><td><strong>Payload</strong></td><td>The semantic content portion of a RAGENT message, always a valid RSF structure</td><td>RAGENT</td></tr>
+  <tr><td><strong>Recursion</strong></td><td>The property of a structure containing sub-structures of the same pattern</td><td>All</td></tr>
+  <tr><td><strong>Confidence</strong></td><td>A numerical score (0.0–1.0) indicating certainty of a reasoning step</td><td>RTP</td></tr>
+  <tr><td><strong>Packing-first</strong></td><td>The principle of keeping complex structures as whole units rather than decomposing</td><td>RSF</td></tr>
+</table>
+
+<hr class="section-break">
+
+<!-- ===== APPENDIX B ===== -->
+
+<h2>Appendix B: Cross-Protocol Quick Reference</h2>
+
+<table>
+  <tr><th>Aspect</th><th>TDP</th><th>RSF</th><th>RTP</th><th>ASTP</th><th>RAGENT</th></tr>
+  <tr><td><strong>Core structure</strong></td><td>6 dimensions + contract</td><td>A–F (6 slots)</td><td>A–F (reasoning interpretation)</td><td>E–S–T–R (4 components)</td><td>Envelope + Payload</td></tr>
+  <tr><td><strong>Recursion</strong></td><td>N/A</td><td>Same A–F nested</td><td>Same A–F in sub-steps</td><td>Same E–S–T–R in sub-transitions</td><td>Payload is RSF</td></tr>
+  <tr><td><strong>Minimum required</strong></td><td>Critical dimensions converged</td><td>All 6 slots present</td><td>A–F + confidence</td><td>E + S + T + R</td><td>Envelope fields + RSF Payload</td></tr>
+  <tr><td><strong>Identifier</strong></td><td>Contract ID</td><td>(Within content)</td><td>Step number (D slot)</td><td>Event id, message_id</td><td>message_id, session_id</td></tr>
+  <tr><td><strong>Error handling</strong></td><td>Re-convergence on conflict</td><td>(Domain-specific)</td><td>suspend action for uncertainty</td><td>failure status → error Event</td><td>Standard error codes</td></tr>
+  <tr><td><strong>Audit output</strong></td><td>Convergence log</td><td>Full A–F structure (Audit mode)</td><td>Full trace + summary (Audit mode)</td><td>Full transition log</td><td>Full message log</td></tr>
+  <tr><td><strong>Integration point</strong></td><td>Feeds ASTP / RAGENT</td><td>Foundation for all protocols</td><td>Embeds in ASTP Transition.reasoning_trace</td><td>Uses RTP trace; results via RAGENT</td><td>Carries RSF Payload</td></tr>
+</table>
+
+<hr class="section-break">
+
+<!-- ===== APPENDIX C ===== -->
+
+<h2>Appendix C: Standard Error Codes (RAGENT)</h2>
+
+<table>
+  <tr><th>Error Code</th><th>Description</th><th>Typical Cause</th></tr>
+  <tr><td><code>INVALID_MESSAGE</code></td><td>Envelope format is invalid</td><td>Missing required field, incorrect field type</td></tr>
+  <tr><td><code>INVALID_RSF</code></td><td>Payload is not a valid RSF structure</td><td>Missing slots, slot type mismatch</td></tr>
+  <tr><td><code>UNSUPPORTED_VERSION</code></td><td>Protocol version not supported</td><td>Version field specifies unrecognized version</td></tr>
+  <tr><td><code>PERMISSION_DENIED</code></td><td>Sender lacks permission</td><td>Unauthorized operation attempt</td></tr>
+  <tr><td><code>EXECUTION_FAILED</code></td><td>Message processing failed</td><td>Internal error in receiving agent</td></tr>
+  <tr><td><code>TIMEOUT</code></td><td>Operation timed out</td><td>Receiver did not respond within expected time</td></tr>
+  <tr><td><code>UNKNOWN_TYPE</code></td><td>Message type not recognized</td><td>Type field has value outside {REQUEST, RESPONSE, EVENT, ERROR}</td></tr>
+</table>
+
+<hr class="section-break">
+
+<!-- ===== FOOTER ===== -->
+
+<div class="footer-meta">
+  <p><strong>Author</strong>: Wang Daqing &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Version</strong>: 1.0 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Release Date</strong>: July 2026 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>License</strong>: CC BY 4.0</p>
+</div>
+
+</body>
+</html>
